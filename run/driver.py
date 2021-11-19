@@ -6,7 +6,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/2020-Mem3DG-Applications/results/temp2"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 
 """ Windows """
 # outputDir = (
@@ -20,14 +20,14 @@ outputDir = "/home/cuzhu/2020-Mem3DG-Applications/results/temp2"
 ####################################################
 """ Built-in construction """
 # patFace, patVertex = dg.getHexagon(1, 4)
-icoFace, icoVertex = dg.getIcosphere(1, 3)
+# icoFace, icoVertex = dg.getIcosphere(1, 3)
 # tetFace, tetVertex = dg.getTetrahedron()
 # diaFace, diaVertex = dg.getDiamond(3.14/3)
 # cyFace, cyVertex = dg.getCylinder(1, 16, 60, 7.5, 0)
 # soupFace, soupVertex = dg.processSoup(inputMesh)
 
 """ Linux """
-# inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/patch.ply"
 
 """ Windows """
 # inputMesh = "C://Users//Kieran//Dev//2020-Mem3DG-Applications//run//input-file//patch.ply"
@@ -48,7 +48,7 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
-mP.meshMutator.curvTol = 0.005
+mP.meshMutator.curvTol = 0.002
 mP.meshMutator.collapseSkinny = True
 
 # mP.meshRegularizer.Kst = 0.1 # 2e-6
@@ -65,10 +65,11 @@ isContinue = False
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-# g = dg.System(inputMesh, p, nSub, isContinue)
+g = dg.System(inputMesh, p, mP, nSub)
 # g = dg.System(soupFace, soupVertex, p, nSub)
-g = dg.System(icoFace, icoVertex, p, mP, nSub)
-# g = dg.System(patFace, patVertex, p, nSub)
+# g = dg.System(icoFace, icoVertex, p, mP, nSub)
+# g = dg.System(patFace, patVertex, p, mP, nSub)
+# g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(diaFace, diaVertex, diaVertex, nSub, p)
 # g = dg.System(trajFile, -1, nSub, False, p)
 # g = dg.System(cyFace, cyVertex, p, nSub)
@@ -77,18 +78,18 @@ g = dg.System(icoFace, icoVertex, p, mP, nSub)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 1
+h = 5
 T = 10000000
 eps = 1e-6
-tSave = 300
+tSave = 500
 verbosity = 5
 
 """ Integrator construction """
 fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
-# fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 50
+fe.updateGeodesicsPeriod = 10
+fe.processMeshPeriod = 10
 # fe.isBacktrack = False
 fe.isAdaptiveStep = True
 fe.verbosity = verbosity
