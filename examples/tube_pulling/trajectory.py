@@ -107,7 +107,7 @@ if __name__ == "__main__":
         pressureEnergy[frame] = system.energy.pressureEnergy
         adsorptionEnergy[frame] = system.energy.adsorptionEnergy
         
-        height[frame] = np.max(np.shape(system.getVertexPositionMatrix()[:,2]))
+        height[frame] = np.max(system.getVertexPositionMatrix()[:,2])
     totalEnergy = potentialEnergy + kineticEnergy - externalWork
 
     """ plotting """
@@ -127,12 +127,10 @@ if __name__ == "__main__":
     # axs[1].plot(time, pressureEnergy, label='$E_p$')
     # axs[1].plot(time, adsorptionEnergy, label='$E_a$')
     # axs[1].plot(time, height, label="$h$")
-    print("time", time[:-1])
-    print("np.diff(time)", np.diff(time))
-    axs[1].plot(time[:-1], np.diff(height)/np.diff(time), label="velocity")
+    axs[1].plot(time[:-1], np.diff(height)/np.diff(time), label="velocity", marker = 'o')
     axs[1].legend()
 
-    axs[2].plot(time, -height, label="height")
+    axs[2].plot(time, -height, label="height", marker = 'o')
     axs[2].legend()
     
     plt.tight_layout()
