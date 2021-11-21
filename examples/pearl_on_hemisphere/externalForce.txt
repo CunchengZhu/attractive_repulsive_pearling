@@ -1,0 +1,17 @@
+  double concentration = 30;
+  double decayTime = 2000;
+  gcs::HeatMethodDistanceSolver heatSolver(*vpg);
+  geodesicDistanceFromPtInd = heatSolver.computeDistance(thePoint);
+  double standardDeviation =
+      geodesicDistanceFromPtInd.raw().maxCoeff() / concentration;
+
+  // gc::Vector3 anchor{0, 0, 1};
+  gc::Vector3 direction{0, 0, 1};
+  // direction = anchor - vpg->inputVertexPositions[thePoint.nearestVertex()];
+  for (std::size_t i = 0; i < mesh->nVertices(); ++i) {
+    gc::Vertex v{mesh->vertex(i)};
+    forces.externalForceVec[i] =
+        exp(-time / decayTime) * parameters.external.Kf *
+        gaussianDistribution(geodesicDistanceFromPtInd[v], standardDeviation) *
+        vpg->vertexDualArea(v) * direction;
+  }
