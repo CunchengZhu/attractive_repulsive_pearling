@@ -1,6 +1,7 @@
 import pymem3dg as dg
 import numpy as np
 import parameters
+import PyMem3dg as pm
 
 ####################################################
 #                 Initialize pathes                #
@@ -26,7 +27,8 @@ inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere
 # tetFace, tetVertex = dg.getTetrahedron()
 # diaFace, diaVertex = dg.getDiamond(3.14/3)
 # cyFace, cyVertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-# soupFace, soupVertex = dg.processSoup(inputMesh)
+soupFace, soupVertex = dg.processSoup(inputMesh)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.06)
 
 """ Linux """
 # inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
@@ -67,8 +69,8 @@ isContinue = False
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-g = dg.System(inputMesh, p, mP, nSub)
-# g = dg.System(soupFace, soupVertex, p, nSub)
+# g = dg.System(inputMesh, p, mP, nSub)
+g = dg.System(soupFace, soupVertex, p, mP, nSub)
 # g = dg.System(icoFace, icoVertex, p, mP, nSub)
 # g = dg.System(patFace, patVertex, p, nSub)
 # g = dg.System(diaFace, diaVertex, diaVertex, nSub, p)
