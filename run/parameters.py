@@ -2,16 +2,16 @@ import pymem3dg as dg
 def parameters():
     p = dg.Parameters()
 
-    p.proteinMobility = 600
+    p.proteinMobility = 1000
     p.temperature = 0
 
     p.point.pt = [0,0]
     p.point.isFloatVertex = False
     
     p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.001]
+    p.proteinDistribution.protein0 = [0.01]
     
-    p.boundary.shapeBoundaryCondition = "roller"
+    p.boundary.shapeBoundaryCondition = "fixed"
     p.boundary.proteinBoundaryCondition = "pin"
     
     p.variation.isProteinVariation = True
@@ -19,18 +19,18 @@ def parameters():
     p.variation.radius = -1
     
     p.bending.Kb = 8.22e-5
-    p.bending.Kbc = 8.22e-5  # 8.22e-4 #DEFINITION OF LARGE AND SMALL VALUE
+    p.bending.Kbc = 2 * 8.22e-5  # 8.22e-4 #DEFINITION OF LARGE AND SMALL VALUE
     p.bending.H0c = 60
     
     p.tension.isConstantSurfaceTension = False
     p.tension.Ksg = 1
     p.tension.A_res = 0
-    p.tension.At = 3.1416
+    p.tension.At = 3.40904
     p.tension.lambdaSG = 0
     
     p.adsorption.epsilon = -1e-4
 
-    p.aggregation.chi = -5e-3
+    p.aggregation.chi = -5e-2
     
     p.osmotic.isPreferredVolume = False
     p.osmotic.isConstantOsmoticPressure = True
@@ -41,7 +41,7 @@ def parameters():
     p.osmotic.cam = -1
     p.osmotic.lambdaV = 0
     
-    p.dirichlet.eta = 0.0002
+    p.dirichlet.eta = 0.003
     
     p.dpd.gamma = 0
     
