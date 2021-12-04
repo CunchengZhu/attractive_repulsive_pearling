@@ -2,14 +2,15 @@ import pymem3dg as dg
 def parameters():
     p = dg.Parameters()
 
-    p.proteinMobility = 1000
+    p.proteinMobility = 10
     p.temperature = 0
 
     p.point.pt = [0,0]
     p.point.isFloatVertex = False
     
     p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.01]
+    p.proteinDistribution.protein0 = [0.2]
+    p.proteinDistribution.lambdaPhi = 1e-7
     
     p.boundary.shapeBoundaryCondition = "fixed"
     p.boundary.proteinBoundaryCondition = "pin"
@@ -41,7 +42,7 @@ def parameters():
     p.osmotic.cam = -1
     p.osmotic.lambdaV = 0
     
-    p.dirichlet.eta = 0.003
+    p.dirichlet.eta = 0.0001
     
     p.dpd.gamma = 0
     

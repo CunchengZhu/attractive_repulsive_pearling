@@ -83,10 +83,10 @@ g = dg.System(soupFace, soupVertex, p, mP, nSub)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.02
+h = 0.01
 T = 10000000
-eps = 1e-6
-tSave = 10
+eps = 1e-4
+tSave = 5
 verbosity = 5
 
 """ Integrator construction """
@@ -94,7 +94,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 10 * h
+fe.processMeshPeriod = 1
 # fe.isBacktrack = False
 fe.isAdaptiveStep = True
 fe.verbosity = verbosity
