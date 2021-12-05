@@ -1,6 +1,7 @@
 import pymem3dg as dg
 import numpy as np
 import parameters
+import PyMem3dg as pm
 
 ####################################################
 #                 Initialize pathes                #
@@ -26,7 +27,9 @@ inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere
 # tetFace, tetVertex = dg.getTetrahedron()
 # diaFace, diaVertex = dg.getDiamond(3.14/3)
 # cyFace, cyVertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-# soupFace, soupVertex = dg.processSoup(inputMesh)
+soupFace, soupVertex = dg.processSoup(inputMesh)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.06)
 
 """ Linux """
 # inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
@@ -50,7 +53,7 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
-mP.meshMutator.curvTol = 0.002
+mP.meshMutator.curvTol = 0.003
 mP.meshMutator.collapseSkinny = True
 
 # mP.meshRegularizer.Kst = 0.1 # 2e-6
@@ -67,8 +70,8 @@ isContinue = False
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-g = dg.System(inputMesh, p, mP, nSub)
-# g = dg.System(soupFace, soupVertex, p, nSub)
+# g = dg.System(inputMesh, p, mP, nSub)
+g = dg.System(soupFace, soupVertex, p, mP, nSub)
 # g = dg.System(icoFace, icoVertex, p, mP, nSub)
 # g = dg.System(patFace, patVertex, p, nSub)
 # g = dg.System(diaFace, diaVertex, diaVertex, nSub, p)
@@ -80,10 +83,10 @@ g = dg.System(inputMesh, p, mP, nSub)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.1
+h = 0.01
 T = 10000000
-eps = 1e-6
-tSave = 30
+eps = 1e-4
+tSave = 5
 verbosity = 5
 
 """ Integrator construction """
@@ -91,7 +94,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 50
+fe.processMeshPeriod = 1
 # fe.isBacktrack = False
 fe.isAdaptiveStep = True
 fe.verbosity = verbosity
