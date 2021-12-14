@@ -15,9 +15,12 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 # )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame180.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/examples/self_avoiding_protrusion/frame180.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
+soupFace, soupVertex = dg.processSoup(inputMesh)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.06)
 
 ####################################################
 #            Initialize input geometry             #
@@ -67,12 +70,12 @@ mP.meshMutator.collapseSkinny = True
 #                 System                           #
 ####################################################
 nSub = 0
-isContinue = True
+isContinue = False
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-g = dg.System(inputMesh, p, mP, nSub, isContinue)
-# g = dg.System(soupFace, soupVertex, p, mP, nSub)
+# g = dg.System(inputMesh, p, mP, nSub, isContinue)
+g = dg.System(soupFace, soupVertex, p, mP, nSub)
 # g = dg.System(icoFace, icoVertex, p, mP, nSub)
 # g = dg.System(patFace, patVertex, p, nSub)
 # g = dg.System(diaFace, diaVertex, diaVertex, nSub, p)
@@ -87,7 +90,7 @@ g = dg.System(inputMesh, p, mP, nSub, isContinue)
 h = 0.01
 T = 10000000
 eps = 1e-4
-tSave = 5
+tSave = 20
 verbosity = 5
 
 """ Integrator construction """
