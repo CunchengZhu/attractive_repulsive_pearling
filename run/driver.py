@@ -7,7 +7,7 @@ import PyMem3dg as pm
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
 
 """ Windows """
 # outputDir = (
@@ -18,9 +18,10 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/examples/self_avoiding_protrusion/frame180.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame20.ply"
 soupFace, soupVertex = dg.processSoup(inputMesh)
 soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
-soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.06)
+soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.08)
 
 ####################################################
 #            Initialize input geometry             #
@@ -90,7 +91,7 @@ g = dg.System(soupFace, soupVertex, p, mP, nSub)
 h = 0.01
 T = 10000000
 eps = 1e-4
-tSave = 20
+tSave = 2
 verbosity = 5
 
 """ Integrator construction """
@@ -98,7 +99,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 1
+fe.processMeshPeriod = 0.1
 # fe.isBacktrack = False
 fe.isAdaptiveStep = True
 fe.verbosity = verbosity

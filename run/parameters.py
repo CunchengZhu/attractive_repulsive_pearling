@@ -9,7 +9,7 @@ def parameters():
     p.point.isFloatVertex = False
     
     p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.2]
+    p.proteinDistribution.protein0 = [0.5]
     p.proteinDistribution.lambdaPhi = 1e-7
     
     p.boundary.shapeBoundaryCondition = "fixed"
@@ -42,11 +42,13 @@ def parameters():
     p.osmotic.cam = -1
     p.osmotic.lambdaV = 0
     
-    p.dirichlet.eta = 0.0002
+    p.dirichlet.eta = 0.0005
 
-    p.selfAvoidance.d = 0.001
-    p.selfAvoidance.mu = 0
+    p.selfAvoidance.d = 0.01
+    p.selfAvoidance.mu = 1e-6
+    p.selfAvoidance.p = 0.01
     
+
     p.dpd.gamma = 0
     
     p.external.Kf = 0
