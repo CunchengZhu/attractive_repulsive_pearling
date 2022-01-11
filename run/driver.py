@@ -7,7 +7,7 @@ import PyMem3dg as pm
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp3"
 
 """ Windows """
 # outputDir = (

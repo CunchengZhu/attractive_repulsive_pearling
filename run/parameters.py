@@ -45,7 +45,7 @@ def parameters():
     p.dirichlet.eta = 0.0005
 
     p.selfAvoidance.d = 0.01
-    p.selfAvoidance.mu = 1e-6
+    p.selfAvoidance.mu = 1e-4
     p.selfAvoidance.p = 0.01
     
 
