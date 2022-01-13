@@ -58,7 +58,7 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
-mP.meshMutator.curvTol = 0.003
+mP.meshMutator.curvTol = 0.0015
 mP.meshMutator.collapseSkinny = True
 
 # mP.meshRegularizer.Kst = 0.1 # 2e-6
