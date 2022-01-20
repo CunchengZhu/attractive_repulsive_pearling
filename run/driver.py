@@ -7,7 +7,7 @@ import PyMem3dg as pm
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp3"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
 
 """ Windows """
 # outputDir = (
@@ -16,7 +16,7 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp3"
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
 inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame0.ply"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp3/frame0.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 soupFace, soupVertex = dg.processSoup(inputMesh)
 soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
@@ -57,10 +57,10 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
-mP.meshMutator.curvTol = 0.003
+mP.meshMutator.curvTol = 0.002
 mP.meshMutator.collapseSkinny = True
 
-mP.meshRegularizer.isSmoothenMesh = True
+# mP.meshRegularizer.isSmoothenMesh = True
 # mP.meshRegularizer.Kst = 0.1 # 2e-6
 # mP.meshRegularizer.Ksl = 0
 # mP.meshRegularizer.Kse = 0
@@ -71,7 +71,7 @@ mP.meshRegularizer.isSmoothenMesh = True
 #                 System                           #
 ####################################################
 nSub = 0
-isContinue = False
+isContinue = True
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
@@ -88,10 +88,10 @@ g = dg.System(soupFace, soupVertex, p, mP, nSub)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.02
+h = 0.05
 T = 10000000
 eps = 1e-4
-tSave = 2
+tSave = 1
 verbosity = 5
 
 """ Integrator construction """
