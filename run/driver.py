@@ -1,7 +1,7 @@
 import pymem3dg as dg
+import pymem3dg.util as util
 import numpy as np
 import parameters
-import PyMem3dg as pm
 
 ####################################################
 #                 Initialize pathes                #
@@ -15,12 +15,12 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp3"
 # )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame13.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
-# soupFace, soupVertex = dg.processSoup(inputMesh)
-# soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
-# soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.12)
+soupFace, soupVertex = dg.processSoup(inputMesh)
+soupVertex = util.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
+soupVertex = util.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.12)
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame13.ply"
 
 ####################################################
 #            Initialize input geometry             #
