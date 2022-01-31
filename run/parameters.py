@@ -19,7 +19,8 @@ def parameters():
     p.variation.isShapeVariation = True
     p.variation.radius = -1
     
-    p.bending.Kd = 5 * 8.22e-5
+    p.bending.Kd = 8.22e-5
+    p.bending.Kdc = 3 * 8.22e-4
     p.bending.Kb = 8.22e-5
     p.bending.Kbc = 3 * 8.22e-5  # 8.22e-4 #DEFINITION OF LARGE AND SMALL VALUE
     p.bending.H0c = -30

@@ -17,10 +17,7 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp3"
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
 inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/hemisphere.obj"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
-soupFace, soupVertex = dg.processSoup(inputMesh)
-soupVertex = util.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
-soupVertex = util.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.12)
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame13.ply"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame3.ply"
 
 ####################################################
 #            Initialize input geometry             #
@@ -31,9 +28,9 @@ inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame13.ply
 # tetFace, tetVertex = dg.getTetrahedron()
 # diaFace, diaVertex = dg.getDiamond(3.14/3)
 # cyFace, cyVertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-# soupFace, soupVertex = dg.processSoup(inputMesh)
-# soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 5, 15, 0.05)
-# soupVertex = pm.spherical_harmonics_perturbation(soupVertex, 2, 10, 0.06)
+Face, Vertex = dg.processSoup(inputMesh)
+Vertex = util.spherical_harmonics_perturbation(Vertex, 5, 15, 0.02)
+Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 10, 0.05)
 
 """ Linux """
 # inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
@@ -79,10 +76,7 @@ isContinue = True
 """ System construction """
 # g = dg.System(inputMesh, nSub)
 g = dg.System(inputMesh, p, mP, nSub, isContinue)
-# g = dg.System(soupFace, soupVertex, p, mP, nSub)
-# g = dg.System(icoFace, icoVertex, p, mP, nSub)
-# g = dg.System(patFace, patVertex, p, nSub)
-# g = dg.System(diaFace, diaVertex, diaVertex, nSub, p)
+# g = dg.System(Face, Vertex, p, mP, nSub)
 # g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(cyFace, cyVertex, p, nSub)
 
