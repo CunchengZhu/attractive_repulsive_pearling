@@ -9,8 +9,8 @@ def parameters():
     p.point.isFloatVertex = False
     
     p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.1]
-    p.proteinDistribution.lambdaPhi = 1e-5
+    p.proteinDistribution.protein0 = [-1]
+    p.proteinDistribution.lambdaPhi = 0
     
     p.boundary.shapeBoundaryCondition = "none"
     p.boundary.proteinBoundaryCondition = "none"
@@ -32,13 +32,13 @@ def parameters():
 
     p.tension.lambdaSG = 0
     
-    p.adsorption.epsilon = -0.02
+    p.adsorption.epsilon = -0.1/1000
 
-    p.aggregation.chi = 0
+    p.aggregation.chi = 0.03/1000
     
     p.osmotic.isPreferredVolume = True
     p.osmotic.isConstantOsmoticPressure = False
-    p.osmotic.Kv = 1
+    p.osmotic.Kv = 0.1
     p.osmotic.V_res = 0
     p.osmotic.n = 1
     p.osmotic.Vt = 4.14 * 0.8  # 1 * 4 * 3.1416 / 3
@@ -46,7 +46,7 @@ def parameters():
     p.osmotic.lambdaV = 0
     
 
-    p.dirichlet.eta = 0
+    p.dirichlet.eta = 0.0001
 
     p.selfAvoidance.d = 0.001
     p.selfAvoidance.mu = 0
@@ -55,7 +55,7 @@ def parameters():
     
     p.dpd.gamma = 0
     
-    p.external.Kf = 1
+    p.external.Kf = 0
     return p;
 
 

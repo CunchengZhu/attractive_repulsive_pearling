@@ -7,7 +7,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont_cont"
 
 """ Windows """
 # outputDir = (
@@ -15,7 +15,7 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
 # )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/run/input-file/icosphere.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/frame1193.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -76,8 +76,8 @@ isContinue = True
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-# g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
-g = dg.System(Face, Vertex, p, mP, nSub)
+g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
+# g = dg.System(Face, Vertex, p, mP, nSub)
 # g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(cyFace, cyVertex, p, nSub)
 
@@ -86,7 +86,7 @@ g = dg.System(Face, Vertex, p, mP, nSub)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.1
+h = 0.05
 T = 10000000
 eps = 1e-4
 tSave = 10
@@ -97,7 +97,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 20
+fe.processMeshPeriod = 10
 # fe.fluctuatePeriod = 10
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
