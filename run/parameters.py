@@ -2,14 +2,14 @@ import pymem3dg as dg
 def parameters():
     p = dg.Parameters()
 
-    p.proteinMobility = 1
+    p.proteinMobility = 10
     p.temperature = 0
 
     p.point.pt = [0,0]
     p.point.isFloatVertex = False
     
     p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [-1]
+    p.proteinDistribution.protein0 = [0.5]
     p.proteinDistribution.lambdaPhi = 0
     
     p.boundary.shapeBoundaryCondition = "none"
@@ -23,7 +23,7 @@ def parameters():
     p.bending.Kdc = 0
     p.bending.Kb = 8.22e-5
     p.bending.Kbc = 0  # 8.22e-4 #DEFINITION OF LARGE AND SMALL VALUE
-    p.bending.H0c = 12
+    p.bending.H0c = -12
     
     p.tension.isConstantSurfaceTension = False
     p.tension.Ksg = 1
@@ -32,9 +32,9 @@ def parameters():
 
     p.tension.lambdaSG = 0
     
-    p.adsorption.epsilon = -0.1/1000
+    p.adsorption.epsilon = -0.01/1000
 
-    p.aggregation.chi = 0.03/1000
+    p.aggregation.chi = 0.02/1000
     
     p.osmotic.isPreferredVolume = True
     p.osmotic.isConstantOsmoticPressure = False
@@ -46,7 +46,7 @@ def parameters():
     p.osmotic.lambdaV = 0
     
 
-    p.dirichlet.eta = 0.0001
+    p.dirichlet.eta = 0.000001
 
     p.selfAvoidance.d = 0.001
     p.selfAvoidance.mu = 0
@@ -55,7 +55,7 @@ def parameters():
     
     p.dpd.gamma = 0
     
-    p.external.Kf = 0
+    p.external.Kf = 1
     return p;
 
 

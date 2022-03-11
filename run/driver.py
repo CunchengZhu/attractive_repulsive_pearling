@@ -7,7 +7,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont_cont"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
 
 """ Windows """
 # outputDir = (
@@ -15,7 +15,7 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont_c
 # )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/frame1193.ply"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/frame1000.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -23,12 +23,12 @@ inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/f
 #            Initialize input geometry             #
 ####################################################
 """ Built-in construction """
-# patFace, patVertex = dg.getHexagon(1, 4)
-# icoFace, icoVertex = dg.getIcosphere(1, 3)
-# tetFace, tetVertex = dg.getTetrahedron()
-# diaFace, diaVertex = dg.getDiamond(3.14/3)
-# cyFace, cyVertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-Face, Vertex = dg.processSoup(inputMesh)
+# Face, Vertex = dg.getHexagon(1, 4)
+Face, Vertex = dg.getIcosphere(1, 3)
+# Face, Vertex = dg.getTetrahedron()
+# Face, Vertex = dg.getDiamond(3.14/3)
+#Face,Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
+# Face, Vertex = dg.processSoup(inputMesh)
 # Vertex = util.spherical_harmonics_perturbation(Vertex, 5, 6, 0.1)
 # Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 5, 0.1)
 
@@ -76,8 +76,8 @@ isContinue = True
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
-# g = dg.System(Face, Vertex, p, mP, nSub)
+# g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
+g = dg.System(Face, Vertex, p, mP, nSub)
 # g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(cyFace, cyVertex, p, nSub)
 
@@ -86,7 +86,7 @@ g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.05
+h = 0.1
 T = 10000000
 eps = 1e-4
 tSave = 10
@@ -97,7 +97,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 10
+fe.processMeshPeriod = 20
 # fe.fluctuatePeriod = 10
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
