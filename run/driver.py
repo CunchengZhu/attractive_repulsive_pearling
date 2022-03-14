@@ -7,7 +7,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp4"
 
 """ Windows """
 # outputDir = (
@@ -15,7 +15,7 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp2"
 # )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/frame1000.ply"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp2/frame600.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -54,10 +54,11 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
+mP.meshMutator.minimumEdgeLength = 0.001
 mP.meshMutator.curvTol = 0.006
 mP.meshMutator.collapseSkinny = True
 mP.meshMutator.collapseSmall = True
-mP.meshMutator.collapseSmallNeedFlat = True
+mP.meshMutator.collapseFlat = True
 mP.meshMutator.targetFaceArea = 0.0003
 
 mP.meshRegularizer.isSmoothenMesh = True
@@ -97,7 +98,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 20
+fe.processMeshPeriod = 10
 # fe.fluctuatePeriod = 10
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
