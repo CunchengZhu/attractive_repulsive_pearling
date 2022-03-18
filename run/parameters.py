@@ -12,7 +12,7 @@ def scalingVariables():
 def parameters(xi, A_bar, R_bar, Kb):
     p = dg.Parameters()
 
-    p.proteinMobility = 1 * (1 / xi / R_bar**2)
+    p.proteinMobility = 3 * (1 / xi / R_bar**2)
     p.temperature = 0
 
     p.point.pt = [0,0]
@@ -42,21 +42,21 @@ def parameters(xi, A_bar, R_bar, Kb):
 
     p.tension.lambdaSG = 0
     
-    p.adsorption.epsilon = -1 * Kb / R_bar**2
+    p.adsorption.epsilon = -2 * Kb / R_bar**2
 
-    p.aggregation.chi = 36 * Kb / R_bar**2
+    p.aggregation.chi = 5 * Kb / R_bar**2
     
     p.osmotic.isPreferredVolume = True
     p.osmotic.isConstantOsmoticPressure = False
-    p.osmotic.Kv = 1216 * Kb
+    p.osmotic.Kv = 500 * Kb
     p.osmotic.V_res = 0
     p.osmotic.n = 1
-    p.osmotic.Vt = 0.8 * (4/3 * np.pi * R_bar**3)
+    p.osmotic.Vt = 0.85 * (4/3 * np.pi * R_bar**3)
     p.osmotic.cam = -1
     p.osmotic.lambdaV = 0
     
 
-    p.dirichlet.eta = 0.003 * Kb
+    p.dirichlet.eta = 0.1 * Kb
 
     p.selfAvoidance.d = 0.001
     p.selfAvoidance.mu = 0
@@ -65,7 +65,7 @@ def parameters(xi, A_bar, R_bar, Kb):
     
     p.dpd.gamma = 0
     
-    p.external.Kf = 12000 * (Kb / R_bar) 
+    p.external.Kf = 10000 * (Kb / R_bar)
     return p;
 
 
