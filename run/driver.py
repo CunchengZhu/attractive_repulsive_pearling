@@ -7,7 +7,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont_cont"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp11"
 
 """ Windows """
 outputDir = (
@@ -15,7 +15,7 @@ outputDir = (
 )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp5_cont_cont/frame1193.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -43,7 +43,8 @@ Face, Vertex = dg.processSoup(inputMesh)
 #                 Parameters                       #
 ####################################################
 """ Import from file """
-p = parameters.parameters()
+xi, A_bar, R_bar, Kb = parameters.scalingVariables()
+p = parameters.parameters(xi, A_bar, R_bar, Kb)
 
 ####################################################
 #                 Mesh processor                   #
@@ -55,10 +56,11 @@ mP.meshMutator.flipNonDelaunay = True
 mP.meshMutator.splitFat = True
 mP.meshMutator.splitSkinnyDelaunay = True
 mP.meshMutator.splitCurved = True
+mP.meshMutator.minimumEdgeLength = 0.001
 mP.meshMutator.curvTol = 0.006
 mP.meshMutator.collapseSkinny = True
 mP.meshMutator.collapseSmall = True
-mP.meshMutator.collapseSmallNeedFlat = True
+mP.meshMutator.collapseFlat = True
 mP.meshMutator.targetFaceArea = 0.0003
 
 mP.meshRegularizer.isSmoothenMesh = True
@@ -77,8 +79,8 @@ isContinue = True
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
-# g = dg.System(Face, Vertex, p, mP, nSub)
+# g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
+g = dg.System(Face, Vertex, p, mP, nSub)
 # g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(cyFace, cyVertex, p, nSub)
 
@@ -87,8 +89,8 @@ g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
 #          Time integration / Optimization
 ####################################################
 """ Integrator setups (essential) """
-h = 0.05
-T = 10000000
+h = 4e-6 * (xi * R_bar**2 / Kb)
+T = 10000000 * h
 eps = 1e-4
 tSave = 10
 verbosity = 5
@@ -98,7 +100,7 @@ fe = dg.Euler(g, h, T, tSave, eps, outputDir)
 
 """ Integrator setups (optional) """
 # fe.tUpdateGeodesics = 50
-fe.processMeshPeriod = 10
+fe.processMeshPeriod = 20
 # fe.fluctuatePeriod = 10
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
