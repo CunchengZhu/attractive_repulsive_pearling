@@ -7,7 +7,7 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp11"
+outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 
 """ Windows """
 # outputDir = (
@@ -61,8 +61,8 @@ mP.meshMutator.collapseSkinny = True
 mP.meshMutator.collapseSmall = True
 mP.meshMutator.collapseFlat = True
 mP.meshMutator.targetFaceArea = 0.0003
+mP.meshMutator.isSmoothenMesh = True
 
-mP.meshRegularizer.isSmoothenMesh = True
 # mP.meshRegularizer.Kst = 0.1 # 2e-6
 # mP.meshRegularizer.Ksl = 0
 # mP.meshRegularizer.Kse = 0
@@ -77,11 +77,11 @@ nMutation = 0
 isContinue = True
 
 """ System construction """
-# g = dg.System(inputMesh, nSub)
-# g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
-g = dg.System(Face, Vertex, p, mP, nSub)
-# g = dg.System(trajFile, -1, p, mP, nSub)
-# g = dg.System(cyFace, cyVertex, p, nSub)
+# g = dg.System(inputMesh)
+# g = dg.System(inputMesh, p, mP, nMutation, isContinue)
+g = dg.System(Face, Vertex, p, mP)
+# g = dg.System(trajFile, -1, p, mP)
+# g = dg.System(cyFace, cyVertex, p)
 
 # g.saveRichData(outputDir+"/hemisphere.obj", True)
 ###################################################
