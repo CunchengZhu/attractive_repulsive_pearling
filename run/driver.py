@@ -10,12 +10,12 @@ import parameters
 outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 
 """ Windows """
-# outputDir = (
-#     "C://Users//Kieran//Dev//2020-Mem3DG-Applications//results//bud//asymm//testTraj//boundaryMutation"
-# )
+outputDir = (
+    "C://Users//zhucu//Dev//attractive_repulsive_pearling//results//temp"
+)
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
+inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -24,13 +24,14 @@ outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
 ####################################################
 """ Built-in construction """
 # Face, Vertex = dg.getHexagon(1, 4)
-Face, Vertex = dg.getIcosphere(1, 3)
+# Face, Vertex = dg.getIcosphere(1, 3)
 # Face, Vertex = dg.getTetrahedron()
 # Face, Vertex = dg.getDiamond(3.14/3)
-#Face,Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-# Face, Vertex = dg.processSoup(inputMesh)
+# Face, Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
+Face, Vertex = dg.processSoup(inputMesh)
+# Face, Vertex = dg.stripRichData(inputMesh)
 # Vertex = util.spherical_harmonics_perturbation(Vertex, 5, 6, 0.1)
-# Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 5, 0.1)
+# Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 5, 0.5)
 
 """ Linux """
 # inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
