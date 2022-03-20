@@ -7,15 +7,15 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp11"
+# outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp11"
 
 """ Windows """
-# outputDir = (
-#     "C://Users//Kieran//Dev//2020-Mem3DG-Applications//results//bud//asymm//testTraj//boundaryMutation"
-# )
+outputDir = (
+    "C://Users//zhucu//Dev//attractive_repulsive_pearling//results//temp"
+)
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
+inputMesh = "C://Users//zhucu//Dev//attractive_repulsive_pearling//results//temp//f5_t48_.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -78,8 +78,8 @@ isContinue = True
 
 """ System construction """
 # g = dg.System(inputMesh, nSub)
-# g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
-g = dg.System(Face, Vertex, p, mP, nSub)
+g = dg.System(inputMesh, p, mP, nSub, nMutation, isContinue)
+# g = dg.System(Face, Vertex, p, mP, nSub)
 # g = dg.System(trajFile, -1, p, mP, nSub)
 # g = dg.System(cyFace, cyVertex, p, nSub)
 
@@ -89,9 +89,9 @@ g = dg.System(Face, Vertex, p, mP, nSub)
 ####################################################
 """ Integrator setups (essential) """
 h = 4e-6 * (xi * R_bar**2 / Kb)
-T = 10000000 * h
+tSave = 200 * h
+T = 100000 * h
 eps = 1e-4
-tSave = 10
 verbosity = 5
 
 """ Integrator construction """

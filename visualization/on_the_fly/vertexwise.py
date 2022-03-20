@@ -28,7 +28,7 @@ if __name__ == "__main__":
     """ based on .nc file """
     # meshList = [(wd + '0p7_neg/traj', 14),
     #             (wd + '0p7_neg/traj', 27), (wd + '0p7/traj', 200)]
-    meshList = [(wd + "temp/traj", 10)]
+    meshList = [(wd + "temp/traj.nc", 10)]
 
     """ loop over meshes """
     for i in range(len(meshList)):
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         """ construct system """
         xi, A_bar, R_bar, Kb = parameterFile.scalingVariables()
         system = dg.System(
-            trajNc + ".nc", frame, parameterFile.parameters(xi, A_bar, R_bar, Kb), True
+            trajNc, frame, parameterFile.parameters(xi, A_bar, R_bar, Kb), True
         )
 
         """ read protein density """
