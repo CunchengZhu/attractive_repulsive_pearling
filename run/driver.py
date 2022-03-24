@@ -15,7 +15,7 @@ outputDir = (
 )
 
 # trajFile = "/home/cuzhu/2020-Mem3DG-Applications/results/bud/testrefactor3/traj.nc"
-inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
+# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
 # trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
 # inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
 
@@ -24,11 +24,11 @@ inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.p
 ####################################################
 """ Built-in construction """
 # Face, Vertex = dg.getHexagon(1, 4)
-# Face, Vertex = dg.getIcosphere(1, 3)
+Face, Vertex = dg.getIcosphere(1, 3)
 # Face, Vertex = dg.getTetrahedron()
 # Face, Vertex = dg.getDiamond(3.14/3)
 # Face, Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
-Face, Vertex = dg.processSoup(inputMesh)
+# Face, Vertex = dg.processSoup(inputMesh)
 # Face, Vertex = dg.stripRichData(inputMesh)
 # Vertex = util.spherical_harmonics_perturbation(Vertex, 5, 6, 0.1)
 # Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 5, 0.5)
@@ -106,4 +106,29 @@ fe.processMeshPeriod = 20
 fe.isBacktrack = True
 fe.isAdaptiveStep = False
 fe.verbosity = verbosity
-fe.integrate()
+# fe.integrate()
+frame = 0
+fe.createMutableNetcdfFile()
+lastSave = g.time
+lastProcessMesh = g.time
+initTime = g.time
+while frame < 10:
+    fe.status()
+    if ((g.time - lastSave > tSave) | (g.time == initTime) | fe.EXIT):
+        lastSave = g.time
+        fe.saveData()
+        frame = frame + 1
+    if (fe.EXIT):
+        break
+    if (g.time - lastProcessMesh > (fe.processMeshPeriod * fe.timeStep)):
+        lastProcessMesh = g.time
+        g.mutateMesh(1)
+        g.updateConfigurations()
+    
+    if (g.time == lastProcessMesh):
+        g.time = g.time + 1e-10 * h
+    else:
+        fe.march()
+del fe
+import pymem3dg.visual as dg_vis
+dg_vis.animate(outputDir+"/traj.nc", meanCurvature = True)
