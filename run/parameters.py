@@ -15,19 +15,19 @@ def parameters(xi, A_bar, R_bar, Kb):
     p.proteinMobility = 3 * (1 / xi / R_bar**2)
     p.temperature = 0
 
-    p.point.pt = [0,0]
+    p.point.pt = [0, 0]
     p.point.isFloatVertex = False
     
-    p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.5]
-    p.proteinDistribution.lambdaPhi = 0
+    p.protein.profile = "none"
+    p.protein.geodesicProteinDensityDistribution = [-1]
+    p.protein.proteinInteriorPenalty = 0
     
     p.boundary.shapeBoundaryCondition = "none"
     p.boundary.proteinBoundaryCondition = "none"
     
     p.variation.isProteinVariation = True
     p.variation.isShapeVariation = True
-    p.variation.radius = -1
+    p.variation.geodesicMask = -1
     
     p.bending.Kd = 0
     p.bending.Kdc = 0
