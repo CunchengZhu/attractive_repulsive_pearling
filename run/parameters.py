@@ -7,7 +7,8 @@ def scalingVariables():
     A_bar = 12.4866
     R_bar = np.sqrt(A_bar/ 4 / np.pi)
     Kb = 8.22e-5
-    return xi, A_bar, R_bar, Kb
+    h = 4e-6 * (xi * R_bar**2 / Kb)
+    return xi, A_bar, R_bar, Kb, h
 
 def parameters(xi, A_bar, R_bar, Kb):
     p = dg.Parameters()
@@ -65,7 +66,7 @@ def parameters(xi, A_bar, R_bar, Kb):
     
     p.dpd.gamma = 0
     
-    p.external.Kf = 10000 * (Kb / R_bar)
+    p.external.Kf = 100000 * (Kb / R_bar)
     return p;
 
 

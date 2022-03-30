@@ -1,5 +1,5 @@
 import pymem3dg as dg
-import pymem3dg.util as util
+import pymem3dg.util as dg_util
 import numpy as np
 import parameters
 
@@ -7,13 +7,11 @@ import parameters
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
-outputDir = "/home/cuzhu/attractive_repulsive_pearling/results/temp"
-
+# home = "/home/cuzhu/attractive_repulsive_pearling"
 """ Windows """
-outputDir = (
-    "C://Users//zhucu//Dev//attractive_repulsive_pearling//results//temp"
-)
+home =  "C://Users//zhucu//Dev//attractive_repulsive_pearling"
 
+outputDir = home + "//results//temp"
 ####################################################
 #            Initial conditions                    #
 ####################################################
@@ -25,49 +23,33 @@ Face, Vertex = dg.getIcosphere(1, 3)
 # Face, Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
 # Face, Vertex = dg.processSoup(inputMesh)
 # Face, Vertex = dg.stripRichData(inputMesh)
-# Vertex = util.spherical_harmonics_perturbation(Vertex, 5, 6, 0.1)
-# Vertex = util.spherical_harmonics_perturbation(Vertex, 2, 5, 0.5)
 
-trajFile = "C://Users//zhucu//Dev//attractive_repulsive_pearling//results//temp//traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp7/frame1780.ply"
-# trajFile = "/home/cuzhu/attractive_repulsive_pearling/results/temp/traj.nc"
-# inputMesh = "/home/cuzhu/attractive_repulsive_pearling/results/temp/frame0.ply"
+Vertex = dg_util.sphericalHarmonicsPerturbation(Vertex, 5, 6, 0.1)
 
+""" input construction """
+trajFile = outputDir + "//traj.nc"
+# inputMesh = outputDir + "/temp7/frame1780.ply"
+
+""" additional initial condition """
 proteinDensity = np.ones(np.shape(Vertex)[0]) * 0.5
 velocity = np.zeros(np.shape(Vertex))
-
-""" Linux """
-# inputMesh = "/home/cuzhu/2020-Mem3DG-Applications/run/input-file/patch.ply"
-
-""" Windows """
-# inputMesh = "C://Users//Kieran//Dev//2020-Mem3DG-Applications//run//input-file//patch.ply"
-
 ####################################################
 #                 Parameters                       #
 ####################################################
 """ Import from file """
-xi, A_bar, R_bar, Kb = parameters.scalingVariables()
+xi, A_bar, R_bar, Kb, h = parameters.scalingVariables()
 p = parameters.parameters(xi, A_bar, R_bar, Kb)
-
-
 ####################################################
 #                 System                           #
 ####################################################
-nSub = 0
-nMutation = 0
-isContinue = True
-
 """ System construction """
 # g = dg.System(inputMesh)
 # g = dg.System(inputMesh, p, mP, nMutation, isContinue)
-# g = dg.System(Face, Vertex, proteinDensity, velocity, p)
-g = dg.System(trajFile, 4, p)
+g = dg.System(Face, Vertex, proteinDensity, velocity, p)
+# g = dg.System(trajFile, 4, p)
 # g = dg.System(cyFace, cyVertex, p)
 
-
-####################################################
-#                 Mesh processor                   #
-####################################################
+""" Mesh processor """
 g.meshProcessor.meshMutator.isShiftVertex = True
 g.meshProcessor.meshMutator.flipNonDelaunay = True
 # g.meshProcessor.meshMutator.splitLarge = True
@@ -81,41 +63,40 @@ g.meshProcessor.meshMutator.collapseSmall = True
 g.meshProcessor.meshMutator.collapseFlat = True
 g.meshProcessor.meshMutator.targetFaceArea = 0.0003
 g.meshProcessor.meshMutator.isSmoothenMesh = True
-
-
 # g.meshProcessor.meshRegularizer.Kst = 0.1 # 2e-6
 # g.meshProcessor.meshRegularizer.Ksl = 0
 # g.meshProcessor.meshRegularizer.Kse = 0
 # g.meshProcessor.meshRegularizer.readReferenceData(icoFace, icoVertex, 0)
 
-
-print(g.parameters.bending.Kb)
-g.initialize(2)
-dg.visualize(g)
-
-# g.saveRichData(outputDir+"/hemisphere.obj", True)
+""" System initialization """
+g.initialize(nMutation = 2, ifMute = False)
 ###################################################
 #          Time integration / Optimization
 ####################################################
-""" Integrator setups (essential) """
-h = 4e-6 * (xi * R_bar**2 / Kb)
-T = 10000 * h
-eps = 1e-4
-tSave = 100 * h
-
 """ Integrator construction """
-fe = dg.Euler(g, h, T, tSave, eps, outputDir, 4)
+fe = dg.Euler(system = g,
+              characteristicTimeStep = h ,
+              totalTime = 10000 * h, 
+              savePeriod = 100 * h, 
+              tolerance = 1e-4,
+              outputDirectory = outputDir,
+              frame = 0)
 
-""" Integrator setups (optional) """
+""" settings """
 # fe.tUpdateGeodesics = 50
 fe.processMeshPeriod = 20
 # fe.fluctuatePeriod = 10
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
-fe.ifAdaptiveStep = False
+# fe.ifAdaptiveStep = True
+
+""" Verbosity """
 fe.ifPrintToConsole = True
 fe.ifOutputTrajFile = True
+# fe.ifOutputMeshFile = True
+
 # fe.integrate()
+
 # frame = 0
 # fe.createMutableNetcdfFile()
 # lastSave = g.time
