@@ -7,7 +7,8 @@ def scalingVariables():
     A_bar = 12.4866
     R_bar = np.sqrt(A_bar/ 4 / np.pi)
     Kb = 8.22e-5
-    return xi, A_bar, R_bar, Kb
+    h = 4e-6 * (xi * R_bar**2 / Kb)
+    return xi, A_bar, R_bar, Kb, h
 
 def parameters(xi, A_bar, R_bar, Kb):
     p = dg.Parameters()
@@ -15,19 +16,19 @@ def parameters(xi, A_bar, R_bar, Kb):
     p.proteinMobility = 3 * (1 / xi / R_bar**2)
     p.temperature = 0
 
-    p.point.pt = [0,0]
+    p.point.pt = [0, 0]
     p.point.isFloatVertex = False
     
-    p.proteinDistribution.profile = "none"
-    p.proteinDistribution.protein0 = [0.5]
-    p.proteinDistribution.lambdaPhi = 0
+    p.protein.profile = "none"
+    p.protein.geodesicProteinDensityDistribution = [-1]
+    p.protein.proteinInteriorPenalty = 0
     
     p.boundary.shapeBoundaryCondition = "none"
     p.boundary.proteinBoundaryCondition = "none"
     
     p.variation.isProteinVariation = True
     p.variation.isShapeVariation = True
-    p.variation.radius = -1
+    p.variation.geodesicMask = -1
     
     p.bending.Kd = 0
     p.bending.Kdc = 0
@@ -65,7 +66,7 @@ def parameters(xi, A_bar, R_bar, Kb):
     
     p.dpd.gamma = 0
     
-    p.external.Kf = 10000 * (Kb / R_bar)
+    p.external.Kf = 100000 * (Kb / R_bar)
     return p;
 
 
