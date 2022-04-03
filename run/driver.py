@@ -1,17 +1,17 @@
 import pymem3dg as dg
 import pymem3dg.util as dg_util
+import pymem3dg.visual as dg_vis
 import numpy as np
 import parameters
-
 ####################################################
 #                 Initialize pathes                #
 ####################################################
 """ Linux """
 # home = "/home/cuzhu/attractive_repulsive_pearling"
 """ Windows """
-home =  "C://Users//zhucu//Dev//attractive_repulsive_pearling"
+home = "C:/Users/zhucu/Dev/attractive_repulsive_pearling"
 
-outputDir = home + "//results//temp"
+outputDir = home + "/results/temp"
 ####################################################
 #            Initial conditions                    #
 ####################################################
@@ -23,13 +23,10 @@ Face, Vertex = dg.getIcosphere(1, 3)
 # Face, Vertex = dg.getCylinder(1, 16, 60, 7.5, 0)
 # Face, Vertex = dg.processSoup(inputMesh)
 # Face, Vertex = dg.stripRichData(inputMesh)
-
 Vertex = dg_util.sphericalHarmonicsPerturbation(Vertex, 5, 6, 0.1)
-
 """ input construction """
 trajFile = outputDir + "//traj.nc"
 # inputMesh = outputDir + "/temp7/frame1780.ply"
-
 """ additional initial condition """
 proteinDensity = np.ones(np.shape(Vertex)[0]) * 0.5
 velocity = np.zeros(np.shape(Vertex))
@@ -46,7 +43,6 @@ p = parameters.parameters(xi, A_bar, R_bar, Kb)
 # g = dg.System(inputMesh)
 g = dg.System(Face, Vertex, proteinDensity, velocity, p)
 # g = dg.System(trajFile, 4, p)
-
 """ Mesh processor """
 g.meshProcessor.meshMutator.isShiftVertex = True
 g.meshProcessor.meshMutator.flipNonDelaunay = True
@@ -65,21 +61,21 @@ g.meshProcessor.meshMutator.isSmoothenMesh = True
 # g.meshProcessor.meshRegularizer.Ksl = 0
 # g.meshProcessor.meshRegularizer.Kse = 0
 # g.meshProcessor.meshRegularizer.readReferenceData(icoFace, icoVertex, 0)
-
 """ System initialization """
-g.initialize(nMutation = 2, ifMute = False)
-###################################################
-#          Time integration / Optimization
+g.initialize(nMutation=2, ifMute=False)
+####################################################
+#          Time integration / Optimization         #
 ####################################################
 """ Integrator construction """
-fe = dg.Euler(system = g,
-              characteristicTimeStep = h ,
-              totalTime = 10000 * h, 
-              savePeriod = 100 * h, 
-              tolerance = 1e-4,
-              outputDirectory = outputDir,
-              frame = 0)
-
+fe = dg.Euler(
+    system=g,
+    characteristicTimeStep=h,
+    totalTime=10000 * h,
+    savePeriod=100 * h,
+    tolerance=1e-4,
+    outputDirectory=outputDir,
+    frame=0,
+)
 """ settings """
 # fe.tUpdateGeodesics = 50
 fe.processMeshPeriod = 20
@@ -87,36 +83,13 @@ fe.processMeshPeriod = 20
 # fe.fluctuateAmplitude = 0.001
 fe.isBacktrack = True
 # fe.ifAdaptiveStep = True
-
 """ Verbosity """
 fe.ifPrintToConsole = True
 fe.ifOutputTrajFile = True
 # fe.ifOutputMeshFile = True
 
 # fe.integrate()
-
-# frame = 0
-# fe.createMutableNetcdfFile()
-# lastSave = g.time
-# lastProcessMesh = g.time
-# initTime = g.time
-# while frame < 10:
-#     fe.status()
-#     if ((g.time - lastSave > tSave) | (g.time == initTime) | fe.EXIT):
-#         lastSave = g.time
-#         fe.saveData()
-#         frame = frame + 1
-#     if (fe.EXIT):
-#         break
-#     if (g.time - lastProcessMesh > (fe.processMeshPeriod * fe.timeStep)):
-#         lastProcessMesh = g.time
-#         g.mutateMesh(1)
-#         g.updateConfigurations()
-    
-#     if (g.time == lastProcessMesh):
-#         g.time = g.time + 1e-10 * h
-#     else:
-#         fe.march()
-# del fe
-import pymem3dg.visual as dg_vis
-dg_vis.animate(outputDir+"/traj.nc", meanCurvature = True)
+####################################################
+#                       Visualization              # 
+####################################################
+# dg_vis.animate(outputDir+"/traj.nc", meanCurvature = True)
